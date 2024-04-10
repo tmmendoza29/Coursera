@@ -114,7 +114,7 @@ def update_output_container(selected_statistics, input_year):
         R_chart4 = dcc.Graph(
                     figure=px.bar(unem,
                     x='Vehicle_Type',
-                    y='unemployment_rate',
+                    y='Automobile_Sales',
                     title='Effect of Unemployment Rate on Vehicle Type and Sales')
         )
 
