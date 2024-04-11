@@ -33,7 +33,7 @@ year_list = [i for i in range(1980, 2024, 1)]
 # Create the layout of the app
 app.layout = html.Div([
     #TASK 2.1 Add title to the dashboard
-    html.H1("Flight Delay Time Statistics",
+    html.H1("Flight Delay Time Statistics Dashboard",
     style={'textAlign': 'center','color':'#503D36',
     'font-size': 24}),#May include style for title
     html.Div([#TASK 2.2: Add two dropdown menus
@@ -62,9 +62,9 @@ app.layout = html.Div([
 
 def update_input_container(selected_statistics):
     if selected_statistics =='Yearly Statistics': 
-        return True
-    else: 
         return False
+    else: 
+        return True
 
 #Callback for plotting
 # Define the callback function to update the input container based on the selected statistics
@@ -114,7 +114,7 @@ def update_output_container(selected_statistics, input_year):
         R_chart4 = dcc.Graph(
                     figure=px.bar(unem,
                     x='Vehicle_Type',
-                    y='Automobile_Sales',
+                    y='unemployment_rate',
                     title='Effect of Unemployment Rate on Vehicle Type and Sales')
         )
 
@@ -131,12 +131,11 @@ def update_output_container(selected_statistics, input_year):
 #TASK 2.5: Creating Graphs Yearly data
                               
 #plot 1 Yearly Automobile sales using line chart for the whole period.
-        yas= yearly_data.groupby('Year')['Automobile_Sales'].sum().reset_index()
+        yas= data.groupby('Year')['Automobile_Sales'].sum().reset_index()
         Y_chart1 = dcc.Graph(figure=px.line(yas,
                             x= 'Year',
                             y= 'Automobile_Sales',
-                            title='Yearly Automobile Sales'
-        ))
+                            title='Yearly Automobile Sales'))
             
 # Plot 2 Total Monthly Automobile sales using line chart.
         mas=yearly_data.groupby('Month')['Automobile_Sales'].sum().reset_index()
@@ -146,10 +145,11 @@ def update_output_container(selected_statistics, input_year):
                             title= 'Monthly Automobile Sales'))
 
             # Plot bar chart for average number of vehicles sold during the given year
-        avr_vdata=yearly_data.groupby('Year')['Automobile_Sales'].sum().reset_index()
+        avr_vdata=yearly_data.groupby(['Year','Vehicle_Type'])['Automobile_Sales'].sum().reset_index()
         Y_chart3 = dcc.Graph( figure=px.bar(avr_vdata,
                             x='Year',
-                            y='Automobile_Sales',        
+                            y='Automobile_Sales',
+                            color='Vehicle_Type',        
                             title='Average Vehicles Sold by Vehicle Type in the year {}'.format(input_year)))
 
             # Total Advertisement Expenditure for each vehicle using pie chart
